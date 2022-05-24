@@ -15,7 +15,4 @@
     <None Remove="Models\" />
     <None Remove="Microsoft.AspNetCore.Mvc.WebApiCompatShim" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
 </Project>

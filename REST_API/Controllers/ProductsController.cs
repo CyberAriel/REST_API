@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using System.Threading.Tasks;
 using System.Web.Http;
-using Microsoft.AspNetCore.Mvc;
 using REST_API.Models;
-using System.Net.Http;
 
 namespace REST_API.Controllers
 {
     [Route("api/[controller]")]
-    public class ProductsController : ApiController
+    [ApiController]
+    public class ProductsController : ControllerBase
     {
-
         static readonly IProductRepository repository = new ProductRepository();
-
+       
         
         [HttpGet]
         public IEnumerable<Product> GetAllProducts()
@@ -23,7 +18,7 @@ namespace REST_API.Controllers
             return repository.GetAll();
         }
 
-        
+
         [HttpGet("{id}")]
         public Product GetProduct(int id)
         {
@@ -35,26 +30,16 @@ namespace REST_API.Controllers
             return item;
         }
 
-        [HttpGet("{id}")]
-        public IEnumerable<Product> GetProductsByCategory(string category)
-        {
-            return repository.GetAll().Where(
-                p => string.Equals(p.Category, category, StringComparison.OrdinalIgnoreCase));
-        }
-
-        
         [HttpPost]
-        public HttpResponseMessage PostProduct(Product item)
-        {
-            item = repository.Add(item);
-            var response = Request.CreateResponse<Product>(HttpStatusCode.Created, item);
+        public void PostProduct(Product item)
+       {
 
-            string uri = Url.Link("DefaultApi", new { id = item.Id });
-            response.Headers.Location = new Uri(uri);
-            return response;
-        }
+             item = repository.Add(item);
+   
+         }
 
-        
+
+
         [HttpPut("{id}")]
         public void PutProduct(int id, Product product)
         {
@@ -65,7 +50,7 @@ namespace REST_API.Controllers
             }
         }
 
-        // DELETE api/values/5
+
         [HttpDelete("{id}")]
         public void DeleteProduct(int id)
         {
@@ -73,4 +58,3 @@ namespace REST_API.Controllers
         }
     }
 }
-
